@@ -22,8 +22,8 @@ vendor/
 *.swp
 *.swo
 
-# Claude Code
-.claude/
+# Claude Code (팀 공유: commands/, agents/, hooks/ 등은 커밋. 개인 설정만 제외)
+.claude/settings.local.json
 
 # Coverage / test artifacts
 *.out
