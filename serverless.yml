@@ -1,0 +1,66 @@
+service: ${env:SERVICE_NAME, 'go-gin-lambda-starter'}
+
+# 커스텀 도메인이 필요하면 아래 블록을 활성화하고 devDependencies에
+# serverless-domain-manager 추가 후 .env 에 CUSTOM_DOMAIN, ACM_CERT_ARN 입력.
+#
+# plugins:
+#   - serverless-domain-manager
+#
+# custom:
+#   customDomain:
+#     domainName: ${env:CUSTOM_DOMAIN}
+#     certificateArn: ${env:ACM_CERT_ARN}
+#     endpointType: REGIONAL
+#     apiType: http
+#     createRoute53Record: true
+#     createRoute53IPv6Record: true
+#     autoDomain: true
+
+provider:
+  name: aws
+  runtime: provided.al2023
+  architecture: arm64
+  timeout: 30
+  memorySize: 256
+  region: ${env:AWS_REGION, 'ap-northeast-2'}
+  stage: ${opt:stage, 'dev'}
+  environment:
+    STAGE: ${self:provider.stage}
+    DB_HOST: ${env:DB_HOST}
+    DB_PORT: ${env:DB_PORT, '5432'}
+    DB_USER: ${env:DB_USER}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${env:DB_NAME}
+    DB_SSLMODE: ${env:DB_SSLMODE, 'require'}
+    FIREBASE_PROJECT_ID: ${env:FIREBASE_PROJECT_ID}
+    TZ: Asia/Seoul
+
+  # Lambda를 RDS Private Subnet에 배치하려면 아래 vpc 블록 주석 해제.
+  # 주의: VPC 내 Lambda는 NAT Gateway 없이는 인터넷(googleapis.com 등)에 접근 못 함.
+  # Firebase JWKS 조회를 위해 NAT Gateway 필수.
+  #
+  # vpc:
+  #   securityGroupIds:
+  #     - ${env:VPC_SG_ID}
+  #   subnetIds:
+  #     - ${env:VPC_SUBNET_1}
+  #     - ${env:VPC_SUBNET_2}
+  #     - ${env:VPC_SUBNET_3}
+
+package:
+  individually: true
+  patterns:
+    - '!./**'
+
+functions:
+  api:
+    handler: bootstrap
+    package:
+      artifact: bin/api.zip
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
+      - httpApi:
+          path: /health
+          method: GET

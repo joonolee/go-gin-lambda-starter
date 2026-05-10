@@ -1,0 +1,21 @@
+{
+  "name": "go-gin-lambda-starter",
+  "private": true,
+  "scripts": {
+    "build": "cross-env GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -tags lambda.norpc -o bin/bootstrap main.go && node scripts/build-zip.js",
+    "clean": "rimraf bin/",
+    "deploy:dev": "npm run build && npx serverless deploy --stage dev",
+    "deploy:prod": "npm run build && npx serverless deploy --stage prod",
+    "setup": "go install golang.org/x/tools/cmd/goimports@latest && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest && git config core.hooksPath .githooks",
+    "local": "go run main.go",
+    "fmt": "goimports -w . && gofmt -w .",
+    "lint": "go vet ./... && golangci-lint run",
+    "check": "npm run fmt && npm run lint",
+    "test": "go test ./test/..."
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "rimraf": "^5.0.0",
+    "serverless": "^4"
+  }
+}

@@ -1,0 +1,9 @@
+#!/bin/sh
+# 푸시 전 자동 린트 (go vet + golangci-lint)
+
+echo "린트 검사 중..."
+
+go vet ./... || exit 1
+golangci-lint run || exit 1
+
+echo "린트 통과"

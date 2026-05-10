@@ -1,0 +1,30 @@
+# Binary
+bin/
+*.exe
+
+# Build artifacts
+*.zip
+.serverless/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Environment (use .env.example as template; do not commit real secrets)
+.env
+.env.dev
+.env.prod
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude Code
+.claude/
+
+# Coverage / test artifacts
+*.out
+coverage.*

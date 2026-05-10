@@ -1,0 +1,11 @@
+#!/bin/sh
+# 커밋 전 자동 포맷 (goimports + gofmt)
+
+echo "포맷 검사 중..."
+
+goimports -w . && gofmt -w .
+
+# 포맷으로 변경된 파일이 있으면 스테이징에 다시 추가
+git diff --name-only --diff-filter=M | grep '\.go$' | xargs -r git add
+
+echo "포맷 완료"

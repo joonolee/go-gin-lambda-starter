@@ -1,0 +1,15 @@
+* text=auto eol=lf
+
+# Shell scripts must keep LF (cross-platform git hooks)
+*.sh text eol=lf
+.githooks/* text eol=lf
+
+# Binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.zip binary
