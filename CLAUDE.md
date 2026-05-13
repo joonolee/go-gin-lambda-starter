@@ -81,6 +81,10 @@ npm test                          # 테스트
 
 helper: `com.OK(c, gin.H{...})`, `com.OKWithCount(c, n)`, `com.BadRequest(c, msg)`, `com.RespondServiceError(c, err)`.
 
+## MCP 도구
+
+- **Context7** — 외부 라이브러리(gin, aws-sdk-go-v2, aws-lambda-go, gorm 등) 최신 문서 조회. 라이브러리 API 시그니처가 헷갈리거나 SDK v1/v2 혼동 우려가 있을 때 프롬프트에 `use context7` 명시.
+
 ## 배포
 
 - Serverless Framework + `provided.al2023` + ARM64
